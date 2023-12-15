@@ -5,9 +5,9 @@ type ToastStore = {
     title?: string;
     message: string;
 };
-export const toastStore = reactive<ToastStore[]>([]);
+export const toastStore = () => useState<ToastStore[]>("toast", () => []);
 export const useToast = () => (toast: ToastStore) =>
-    toastStore.push({
+    toastStore().value.push({
         ...toast,
         id: toast.id || nanoid(),
     });

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-useHead({
-    title: "Register",
+definePageMeta({
+    auth: true,
 });
 </script>
 
 <template>
-    <RegisterForm />
+    <NuxtPage />
 </template>

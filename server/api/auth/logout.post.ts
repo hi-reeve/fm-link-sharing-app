@@ -7,6 +7,7 @@ export default defineEventHandler(async event => {
         sameSite: "strict",
         secure: process.env.NODE_ENV === "production",
     });
+
     setResponseStatus(event, 200);
     return;
 });

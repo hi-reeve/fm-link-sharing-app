@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { toastStore } from "@/composables/toast";
+const toasts = toastStore();
 </script>
 
 <template>
     <ToastProvider>
         <ToastRoot
-            v-for="toast in toastStore"
+            v-for="toast in toasts"
             :key="toast.id"
             bg-white
             rounded-2

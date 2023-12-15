@@ -18,12 +18,15 @@ const { loading, mutate } = useMutation<
     LoginResponse
 >(
     body =>
-        $fetch<LoginResponse>("/api/auth/login", {
+        $fetch("/api/auth/login", {
             method: "POST",
             body,
         }),
     {
-        onSuccess: (dt: LoginResponse) => {
+        onSuccess: dt => {
+            useAuthUser().value = {
+                userId: dt.user.id,
+            };
             toast({
                 type: "success",
                 message: `Welcome ${dt.user.email}`,

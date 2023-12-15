@@ -20,7 +20,7 @@ type MutationOptions<TResult, TVariables> = {
     onError?: (error: ErrorResponse) => void;
 };
 
-export const useMutation = <TVariables, TResult>(
+export const useMutation = <TVariables = unknown, TResult = unknown>(
     mutationFunction: MutationFunction<TVariables, TResult>,
     options?: MutationOptions<TResult, TVariables>
 ): UseMutationResult<TVariables, TResult> => {
