@@ -1,5 +1,5 @@
 <script setup lang="ts">
-withDefaults(
+const props = withDefaults(
     defineProps<{
         secondary?: boolean;
         type?: "button" | "submit" | "reset";
@@ -15,6 +15,7 @@ withDefaults(
         loading: false,
     }
 );
+const { block } = toRefs(props);
 </script>
 
 <template>
