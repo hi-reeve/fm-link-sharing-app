@@ -16,8 +16,3 @@ export async function getUserSession(event: H3Event) {
 
     return session;
 }
-
-export const getSignedSession = async (event: H3Event) => {
-    const config = useRuntimeConfig();
-    return getCookie(event, config.cookieName);
-};

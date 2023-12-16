@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+definePageMeta({
+    middleware: ["guest"],
+});
+</script>
 
 <template>
     <div flex flex-col justify-center items-center min-h-screen>

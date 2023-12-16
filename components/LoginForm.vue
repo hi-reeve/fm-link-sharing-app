@@ -10,42 +10,10 @@ const validationSchema = z.object({
 const { handleSubmit, meta } = useForm({
     validationSchema: toTypedSchema(validationSchema),
 });
-type LoginResponse = {
-    user: Omit<Account, "password">;
-};
-const { loading, mutate } = useMutation<
-    Pick<Account, "email" | "password">,
-    LoginResponse
->(
-    body =>
-        $fetch("/api/auth/login", {
-            method: "POST",
-            body,
-        }),
-    {
-        onSuccess: dt => {
-            useAuthUser().value = {
-                userId: dt.user.id,
-            };
-            toast({
-                type: "success",
-                message: `Welcome ${dt.user.email}`,
-            });
-            navigateTo({
-                name: "dashboard",
-            });
-        },
-        onError: err => {
-            console.log(err.statusMessage);
-            toast({
-                type: "error",
-                message: err.statusMessage,
-            });
-        },
-    }
-);
+
+const { loadingLogin, login } = useAuth();
 const onSubmit = handleSubmit(v => {
-    mutate(v);
+    login(v);
 });
 </script>
 
@@ -72,7 +40,7 @@ const onSubmit = handleSubmit(v => {
             <Button
                 block
                 :disabled="!meta.valid"
-                :loading="loading"
+                :loading="loadingLogin"
                 type="submit"
             >
                 Login

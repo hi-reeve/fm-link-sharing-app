@@ -1,5 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const authUser = useAuthUser();
+</script>
 
 <template>
-    <div>index</div>
+    <div>Current user : {{ authUser }}</div>
 </template>
