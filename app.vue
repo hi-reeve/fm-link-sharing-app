@@ -4,6 +4,6 @@ import "@unocss/reset/tailwind-compat.css";
 <template>
     <NuxtLayout>
         <NuxtPage />
-        <AppToastProvider />
     </NuxtLayout>
+    <AppToastProvider />
 </template>

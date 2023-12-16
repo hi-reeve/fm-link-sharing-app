@@ -18,6 +18,9 @@ export default defineNuxtConfig({
         "/": {
             redirect: "/auth/login",
         },
+        "/dashboard": {
+            redirect: "/dashboard/link",
+        },
     },
     experimental: {
         typedPages: true,

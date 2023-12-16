@@ -19,13 +19,13 @@ withDefaults(
 
 <template>
     <button
-        px-6.75
+        md:px-6.75
+        px-4
         py-2.75
         rounded-2
         transition-all
         duration-150
         ease-in-out
-        min-w-(14rem)
         :class="{
             'bg-primary text-white active:bg-primary-2 disabled:opacity-25 disabled:cursor-not-allowed disabled:active:bg-primary active:shadow-md active:shadow-primary-2/25':
                 !secondary,

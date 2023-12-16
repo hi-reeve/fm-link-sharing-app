@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { z } from "zod";
-import type { Account } from "~/db/schema/account";
-
-const toast = useToast();
 const validationSchema = z.object({
     email: z.string().email(),
     password: z.string().min(8),
