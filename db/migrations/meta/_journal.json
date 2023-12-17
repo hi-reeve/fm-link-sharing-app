@@ -8,6 +8,13 @@
       "when": 1702612108772,
       "tag": "0000_nice_molten_man",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1702779487741,
+      "tag": "0001_material_lord_hawal",
+      "breakpoints": true
     }
   ]
 }

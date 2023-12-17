@@ -8,6 +8,7 @@ import {
     transformerVariantGroup,
 } from "unocss";
 import { presetForms } from "@julr/unocss-preset-forms";
+import { linkOptions } from "./db/schema/link";
 export default defineConfig({
     preflights: [
         {
@@ -92,4 +93,19 @@ export default defineConfig({
         presetForms(),
     ],
     transformers: [transformerDirectives(), transformerVariantGroup()],
+    variants: [
+        matcher => {
+            const regexResult = matcher.match(/group-(data-\[[^ ]*\]):([^ ]*)/);
+            if (!regexResult) return matcher;
+
+            const data = regexResult[1].replaceAll(/[\[\]]/g, "");
+            const classname = regexResult[2];
+
+            return {
+                matcher: classname,
+                selector: s => `.group[${data}] ${s}`,
+            };
+        },
+    ],
+    safelist: [...linkOptions.map(link => link.icon)],
 });
