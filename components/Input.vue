@@ -40,13 +40,14 @@ const attrs = useAttrs();
             <input
                 v-model="value"
                 :id="name"
-                class="border rounded-2 py-3 text-black w-full transition-all duration-300 ease-in-out focus:ring-none focus:outline-0 focus-visible:ring-none focus-visible:outline-0"
+                class="border rounded-2 py-3 w-full transition-all duration-300 ease-in-out focus:ring-none focus:outline-0 focus-visible:ring-none focus-visible:outline-0"
                 :class="{
                     'pl-10': icon,
                     'pl-4': !icon,
-                    'border-accent-2  focus:shadow-custom focus:shadow-primary/25':
+                    'text-black border-accent-2  focus:shadow-custom focus:shadow-primary/25':
                         !errorMessage,
-                    'border-error  focus:border-error ': !!errorMessage,
+                    'text-error border-error  focus:border-error ':
+                        !!errorMessage,
                 }"
                 v-bind="attrs"
             />

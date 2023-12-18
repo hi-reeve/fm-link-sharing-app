@@ -25,6 +25,7 @@ const { data } = await useFetch("/api/link/list");
             <rect width="72" height="8" x="117.5" y="214" fill="#EEE" rx="4" />
 
             <foreignObject
+                v-if="data?.length"
                 width="237"
                 height="320"
                 x="35"
@@ -41,6 +42,18 @@ const { data } = await useFetch("/api/link/list");
                     </template>
                 </ul>
             </foreignObject>
+            <template v-else>
+                <rect
+                    v-for="n in 5"
+                    :key="n"
+                    width="237"
+                    height="44"
+                    x="35"
+                    :y="278 + (n - 1) * 64"
+                    fill="#EEE"
+                    rx="8"
+                />
+            </template>
         </svg>
     </div>
 </template>
