@@ -8,17 +8,20 @@ defineProps<{
 
 const emit = defineEmits<{
     (e: "remove", index: number): void;
+    (e: "sort", oldIndex: number, newIndex: number): void;
 }>();
 
 const rootRef = ref<HTMLElement | null>(null);
 
 const sortableInst = ref<Sortable | null>(null);
-
 onMounted(() => {
     if (rootRef.value) {
         sortableInst.value = new Sortable(rootRef.value, {
             animation: 150,
             handle: "div[i-system-uicons-drag]",
+            onUpdate(evt) {
+                emit("sort", evt.oldIndex!, evt.newIndex!);
+            },
         });
     }
 });
@@ -36,7 +39,7 @@ onMounted(() => {
         >
             <div flex items-center w-full>
                 <div i-system-uicons-drag w-6 h-6 cursor-pointer />
-                <div font-semibold ml-1>Link #{{ index + 1 }}</div>
+                <div font-semibold ml-1>Link #{{ field.key + 1 }}</div>
                 <button bg-transparent ml-auto @click="emit('remove', index)">
                     Remove
                 </button>

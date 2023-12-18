@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { z } from "zod";
-import { linkType } from "~/db/schema/link";
-
+import { type ProfileLink, linkType } from "~/db/schema/link";
+const toast = useToast();
 const { width } = useWindowSize();
 
 const isLarge = ref(true);
@@ -11,20 +11,48 @@ watchEffect(() => {
 });
 
 const validationSchema = z.object({
-    link: z.array(
-        z.object({
-            type: z.nativeEnum(linkType),
-            url: z.string().url(),
-        })
-    ),
+    link: z
+        .array(
+            z.object({
+                type: z.nativeEnum(linkType),
+                url: z.string().url(),
+            })
+        )
+        .min(1)
+        .refine(
+            items => {
+                const type = new Set(items.map(i => i.type));
+
+                return type.size === items.length;
+            },
+            {
+                message: "Duplicate link types are not allowed",
+            }
+        ),
 });
 
 const { handleSubmit, meta } = useForm({
     validationSchema: toTypedSchema(validationSchema),
 });
 
-const { push, fields, remove } =
+const { push, fields, remove, swap } =
     useFieldArray<z.infer<typeof validationSchema>["link"][number]>("link");
+const { data } = await useFetch("/api/link/list");
+
+watch(
+    data,
+    current => {
+        if (current?.length) {
+            current.forEach(c => {
+                push({
+                    type: c.type!,
+                    url: c.url,
+                });
+            });
+        }
+    },
+    { immediate: true }
+);
 
 const onAddNewLink = () => {
     push({
@@ -32,9 +60,42 @@ const onAddNewLink = () => {
         url: "",
     });
 };
+const onSwap = (oldIndex: number, newIndex: number) => {
+    swap(oldIndex, newIndex);
+};
+
+const { loading, mutate } = useMutation<
+    Omit<ProfileLink, "profileId" | "id">[]
+>(
+    body =>
+        $fetch("/api/link/create", {
+            method: "POST",
+            body,
+        }),
+    {
+        onSuccess: () => {
+            toast({
+                message: "Links updated successfully",
+                type: "success",
+            });
+        },
+        onError: e => {
+            toast({
+                message: `Error: ${e.statusMessage}`,
+                type: "error",
+            });
+        },
+    }
+);
 
 const onSubmit = handleSubmit(values => {
-    console.log(values);
+    mutate(
+        values.link.map((v, i) => ({
+            sort: i,
+            type: v.type,
+            url: v.url,
+        }))
+    );
 });
 </script>
 
@@ -50,7 +111,11 @@ const onSubmit = handleSubmit(values => {
                 + Add new link
             </Button>
             <LetsGetStarted v-if="!fields.length" />
-            <SortableLinkCard :fields="fields" @remove="remove($event)" />
+            <SortableLinkCard
+                :fields="fields"
+                @remove="remove($event)"
+                @sort="onSwap"
+            />
         </div>
 
         <div md:px-10 px-4 md:py-6 py-4 flex>
@@ -58,9 +123,10 @@ const onSubmit = handleSubmit(values => {
                 :block="!isLarge"
                 md:ml-auto
                 :disabled="!meta.valid"
+                :loading="loading"
                 @click="onSubmit"
             >
-                Save
+                {{ data?.length ? "Update" : "Save" }}
             </Button>
         </div>
     </div>

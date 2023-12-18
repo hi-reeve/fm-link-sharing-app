@@ -24,7 +24,7 @@ const selectedIcon = computed(() => {
 <template>
     <SelectRoot v-model="value">
         <SelectTrigger
-            class="bg-white inline-flex items-center rounded-2 px-4 py-3 border w-full group data-[state=open]:shadow-custom data-[state=open]:border-primary transition-all duration-300 ease-in-out"
+            class="bg-white inline-flex items-center rounded-2 px-4 py-3 border w-full group data-[state=open]:shadow-custom data-[state=open]:border-primary transition-all duration-300 ease-in-out focus:outline-primary"
         >
             <div v-if="iconField" :class="selectedIcon" w-4 h-4 mr-2 />
             <SelectValue

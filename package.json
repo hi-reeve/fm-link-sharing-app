@@ -22,6 +22,7 @@
         "drizzle-kit": "^0.20.6",
         "nuxt": "^3.8.2",
         "sass": "^1.69.5",
+        "unocss-preset-scrollbar": "^0.3.0",
         "vue": "^3.3.10",
         "vue-router": "^4.2.5"
     },

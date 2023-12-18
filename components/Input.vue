@@ -10,7 +10,6 @@ const props = defineProps<{
 }>();
 const { name, defaultValue } = toRefs(props);
 const { value, errorMessage } = useField<string | undefined>(name, undefined, {
-    initialValue: defaultValue,
     syncVModel: true,
 });
 const attrs = useAttrs();
