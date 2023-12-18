@@ -1,49 +1,112 @@
 <script setup lang="ts">
 import { z } from "zod";
+
 useHead({
     title: "Profile",
 });
 
+const toast = useToast();
 const { isLarge } = useWindow();
 
 const validationSchema = z.object({
     first_name: z.string(),
     last_name: z.string(),
     email: z.string().email(),
-    avatar: z.string().url(),
+    avatar: z.custom<File | string>().superRefine((file, ctx) => {
+        if (typeof file === "string") return true;
+        if (!file) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Avatar is required",
+            });
+            return false;
+        }
+
+        if (
+            ![
+                "image/webp",
+                "image/png",
+                "image/svg",
+                "image/jpg",
+                "image/jpeg",
+            ].includes(file.type)
+        ) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "File must be a valid image type",
+            });
+            return false;
+        }
+
+        if (file.size > 1024 * 1024 * 1) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "File must be less than 1MB",
+            });
+            return false;
+        }
+
+        return true;
+    }),
 });
 
-const { loading, mutate } = useMutation(body =>
-    $fetch("/api/profile/create", {
-        method: "POST",
-        body,
-    })
+type CreateProfilePayload = z.infer<typeof validationSchema>;
+const { loading, mutate } = useMutation<CreateProfilePayload>(
+    body => {
+        const formData = new FormData();
+        formData.append("avatar", body.avatar);
+        formData.append("first_name", body.first_name);
+        formData.append("last_name", body.last_name);
+        formData.append("email", body.email);
+
+        return $fetch("/api/profile/create", {
+            method: "POST",
+            body: formData,
+        });
+    },
+    {
+        onSuccess: () => {
+            toast({
+                message: "Profile updated",
+                type: "success",
+            });
+        },
+    }
 );
 const { handleSubmit, meta, setFieldValue } = useForm({
     validationSchema: toTypedSchema(validationSchema),
 });
 
-const { data, error } = await useFetch("/api/profile/detail");
+const { data } = await useFetch("/api/profile/detail");
 
 watch(
     data,
     current => {
         if (current) {
             setFieldValue("email", current.email);
+            if (current.profile) {
+                setFieldValue("first_name", current.profile.first_name!);
+                setFieldValue("last_name", current.profile.last_name!);
+                setFieldValue("avatar", current.profile.avatar!);
+            }
         }
     },
     { immediate: true }
 );
 
 const onSubmit = handleSubmit(async values => {
-    console.log(values);
+    mutate({
+        avatar: values.avatar,
+        first_name: values.first_name,
+        last_name: values.last_name,
+        email: values.email,
+    });
 });
 </script>
 
 <template>
     <div bg-white rounded-2 divide-y>
         <div md:p-10 p-6>
-            {{ error }}
             <h1 text-2xl font-bold text-black mb-2>Profile Details</h1>
             <p class="mb-10">
                 Add your details to create a personal touch to your profile.
@@ -109,7 +172,7 @@ const onSubmit = handleSubmit(async values => {
                 </div>
             </div>
         </div>
-        <div md:px-10 px-4 md:py-6 py-4 flex>
+        <div md:px-10 px-6 md:py-6 py-4 flex>
             <Button
                 :block="!isLarge"
                 md:ml-auto

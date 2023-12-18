@@ -16,9 +16,10 @@ const selectFile = () => {
 };
 
 const fileSrc = computed(() => {
-    if (value.value) {
+    if (typeof value.value === "object")
         return URL.createObjectURL(value.value);
-    }
+
+    return value.value;
 });
 </script>
 
@@ -43,7 +44,16 @@ const fileSrc = computed(() => {
                 <div i-bx-image w-10 h-10 mx-auto />
                 <span block mt-2>Change Image</span>
             </div>
-            <NuxtImg alt="avatar" :src="fileSrc" w-48 h-48 object-cover z-9 />
+            <img
+                alt="avatar"
+                :src="fileSrc"
+                w-48
+                h-48
+                object-cover
+                z-9
+                width="192"
+                height="192"
+            />
         </div>
     </button>
 </template>

@@ -115,7 +115,7 @@ const onSubmit = handleSubmit(values => {
             />
         </div>
 
-        <div md:px-10 px-4 md:py-6 py-4 flex>
+        <div md:px-10 px-6 md:py-6 py-4 flex>
             <Button
                 :block="!isLarge"
                 md:ml-auto
