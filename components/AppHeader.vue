@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const { logout } = useAuth();
+</script>
 
 <template>
     <nav flex w-full items-center bg-white rounded-3 p-4>
@@ -60,6 +62,24 @@
                     />
                     <span class="md:inline hidden">Profile Details</span>
                 </NuxtLink>
+            </li>
+            <li>
+                <button
+                    flex
+                    space-x-2
+                    items-center
+                    px-6.75
+                    py-2.75
+                    rounded-2
+                    transition-all
+                    duration-300
+                    ease-in-out
+                    bg-transparent
+                    @click="logout"
+                >
+                    <span class="i-bx:log-out" block md:w-5 md:h-5 w-6 h-6 />
+                    <span class="md:inline hidden">Logout</span>
+                </button>
             </li>
         </ul>
 

@@ -24,7 +24,7 @@ export const useAuth = () => {
                 body,
             }),
         {
-            onSuccess: dt => {
+            onSuccess: async dt => {
                 setAuthUser({
                     userId: dt.user.id,
                 });
@@ -32,7 +32,7 @@ export const useAuth = () => {
                     type: "success",
                     message: `Welcome ${dt.user.email}`,
                 });
-                navigateTo({
+                await navigateTo({
                     name: "dashboard",
                 });
             },
@@ -60,9 +60,26 @@ export const useAuth = () => {
         }
     );
 
+    const { mutate: logout } = useMutation(
+        () => $fetch("/api/auth/logout", { method: "POST" }),
+        {
+            onSuccess: async () => {
+                setAuthUser(null);
+                toast({
+                    type: "success",
+                    message: "Logout success",
+                });
+                await navigateTo({
+                    name: "auth-login",
+                });
+            },
+        }
+    );
+
     return {
         loadingLogin,
         login,
+        logout,
         getSession,
     };
 };
