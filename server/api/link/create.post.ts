@@ -14,6 +14,8 @@ export default defineProtectedEventHandler(async event => {
             .delete(link)
             .where(eq(link.profileId, event.context.user!.userId));
 
+    if (body.length === 0) return;
+
     const newLinks = await db.insert(link).values(
         body.map(i => ({
             ...i,

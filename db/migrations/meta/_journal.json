@@ -15,6 +15,13 @@
       "when": 1702779487741,
       "tag": "0001_material_lord_hawal",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1702889252168,
+      "tag": "0002_yellow_carmella_unuscione",
+      "breakpoints": true
     }
   ]
 }

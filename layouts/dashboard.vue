@@ -5,18 +5,13 @@
         <AppHeader />
     </header>
     <main p-6>
-        <div grid lg:grid-cols-2 gap-6>
-            <div
-                bg-white
-                rounded-2
-                p-6
-                max-h-2xl
-                place-content-center
-                class="lg:grid hidden"
-            >
+        <div grid lg:grid-cols-3 gap-6>
+            <div bg-white rounded-2 p-6 class="lg:grid hidden" w-full>
                 <LinkPreview />
             </div>
-            <slot />
+            <div col-span-2>
+                <slot />
+            </div>
         </div>
     </main>
 </template>

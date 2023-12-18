@@ -11,7 +11,7 @@ const toasts = toastStore();
             rounded-2
             px-6
             py-4
-            class="data-[state=open]:animate-slide-in data-[state=closed]:animate-slide-out-fade data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=cancel]:translate-x-0 data-[swipe=cancel]:transition-[transform_200ms_ease-out] data-[swipe=end]:animate-swipeOut"
+            class="data-[state=open]:animate-slide-in data-[state=closed]:animate-slide-out-fade data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=cancel]:translate-x-0 data-[swipe=cancel]:transition-[transform_200ms_ease-out] data-[swipe=end]:animate-swipeOut shadow"
         >
             <div flex items-center space-x-4>
                 <div>

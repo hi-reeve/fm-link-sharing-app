@@ -3,7 +3,7 @@ const { data } = await useFetch("/api/link/list");
 </script>
 
 <template>
-    <div h-full>
+    <div h-full mx-auto>
         <svg
             xmlns="http://www.w3.org/2000/svg"
             width="308"

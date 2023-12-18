@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { z } from "zod";
 import { type ProfileLink, linkType } from "~/db/schema/link";
-const toast = useToast();
-const { width } = useWindowSize();
-
-const isLarge = ref(true);
-watchEffect(() => {
-    if (width.value >= 769) isLarge.value = true;
-    else isLarge.value = false;
+useHead({
+    title: "Link",
 });
+const toast = useToast();
+
+const { isLarge } = useWindow();
 
 const validationSchema = z.object({
     link: z
@@ -18,7 +16,6 @@ const validationSchema = z.object({
                 url: z.string().url(),
             })
         )
-        .min(1)
         .refine(
             items => {
                 const type = new Set(items.map(i => i.type));

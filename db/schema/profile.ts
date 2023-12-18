@@ -5,6 +5,7 @@ export const profile = sqliteTable("profile", {
     id: text("id").primaryKey(),
     first_name: text("first_name"),
     last_name: text("last_name"),
+    avatar: text("avatar"),
     accountId: text("accountId").references(() => account.id),
 });
 
