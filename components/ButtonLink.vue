@@ -14,13 +14,13 @@ const getOption = computed(() => {
 <template>
     <li
         w-full
-        h-[44px]
         rounded-2
         inline-flex
         items-center
         py-2.75
         px-4
         text-white
+        class="h-[44px]"
         :style="{
             backgroundColor: getOption?.color,
         }"

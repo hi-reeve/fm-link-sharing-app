@@ -8,6 +8,7 @@ export const useAuthUser = () =>
     useState<SessionPayload | null>("user", () => null);
 
 export const useAuth = () => {
+    const router = useRouter();
     const authUser = useAuthUser();
     const toast = useToast();
     const setAuthUser = (user: SessionPayload | null) => {
@@ -32,8 +33,9 @@ export const useAuth = () => {
                     type: "success",
                     message: `Welcome ${dt.user.email}`,
                 });
+
                 await navigateTo({
-                    name: "dashboard",
+                    name: "dashboard-link",
                 });
             },
             onError: err => {
@@ -56,6 +58,7 @@ export const useAuth = () => {
         {
             onSuccess: dt => {
                 setAuthUser(dt);
+                console.log("asd");
             },
         }
     );

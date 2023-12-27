@@ -8,7 +8,7 @@ const props = defineProps<{
     label?: string;
     icon?: string;
 }>();
-const { name, defaultValue } = toRefs(props);
+const { name } = toRefs(props);
 const { value, errorMessage } = useField<string | undefined>(name, undefined, {
     syncVModel: true,
 });

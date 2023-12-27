@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { logout } = useAuth();
+const authUser = useAuthUser();
 </script>
 
 <template>
@@ -83,7 +84,15 @@ const { logout } = useAuth();
             </li>
         </ul>
 
-        <Button secondary>
+        <Button
+            secondary
+            @click="
+                navigateTo({
+                    name: 'preview-id',
+                    params: { id: authUser!.userId },
+                })
+            "
+        >
             <div class="md:block hidden">Preview</div>
             <div class="i-ic-outline-remove-red-eye md:hidden block"></div>
         </Button>
